@@ -1,26 +1,287 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
+  /* ── AURA Brand Colors ── */
+  --aura-primary: #5b8def;
+  --aura-primary-dark: #3a6fd8;
+  --aura-primary-light: #e6f1fb;
+
+  /* ── Emotion State Colors ── */
+  --emotion-focused: #2d5be3;
+  --emotion-focused-bg: #eef2ff;
+  --emotion-neutral: #6b7280;
+  --emotion-neutral-bg: #f9fafb;
+  --emotion-stressed: #f4a261;
+  --emotion-stressed-bg: #fff7ed;
+  --emotion-burnout: #e76f51;
+  --emotion-burnout-bg: #fff1ee;
+  --emotion-anxious: #c77dff;
+  --emotion-anxious-bg: #faf5ff;
+  --emotion-happy: #57cc99;
+  --emotion-happy-bg: #f0fdf4;
+
+  /* ── Surfaces ── */
   --background: #ffffff;
-  --foreground: #171717;
+  --surface: #f8faff;
+  --surface-secondary: #f1f5fd;
+  --card-bg: #ffffff;
+  --card-border: #e1eaff;
+
+  /* ── Text ── */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --text-inverse: #ffffff;
+
+  /* ── Borders ── */
+  --border-default: #e1eaff;
+  --border-strong: #c7d7f5;
+
+  /* ── Semantic ── */
+  --success: #57cc99;
+  --success-bg: #f0fdf4;
+  --warning: #f4a261;
+  --warning-bg: #fff7ed;
+  --danger: #e76f51;
+  --danger-bg: #fff1ee;
+  --info: #5b8def;
+  --info-bg: #e6f1fb;
+
+  /* ── Shadows ── */
+  --shadow-card: 0 2px 16px rgba(91, 141, 239, 0.08);
+  --shadow-card-hover: 0 8px 32px rgba(91, 141, 239, 0.16);
+  --shadow-soft: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  /* ── Radius ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* ── Sidebar ── */
+  --sidebar-width: 240px;
+  --topbar-height: 64px;
+  --bottom-nav-height: 64px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── Dark Mode ── */
+.dark {
+  --background: #0d0f1a;
+  --surface: #131625;
+  --surface-secondary: #1a1f35;
+  --card-bg: #161929;
+  --card-border: #1e2640;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #475569;
+
+  --border-default: #1e2640;
+  --border-strong: #2a3454;
+
+  --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base Styles ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* ── Emotion State Body Classes ── */
+/* Applied dynamically by emotion engine */
+body[data-emotion="focused"] {
+  --surface: #f0f4ff;
+}
+body[data-emotion="stressed"] {
+  --surface: #fff8f0;
+}
+body[data-emotion="burnout"] {
+  --surface: #fff5f0;
+}
+body[data-emotion="anxious"] {
+  --surface: #fdf5ff;
+}
+body[data-emotion="happy"] {
+  --surface: #f0fdf4;
+}
+
+/* ── Utility Classes ── */
+.aura-card {
+  background: var(--card-bg);
+  border: 0.5px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-base);
+}
+
+.aura-card:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.aura-surface {
+  background: var(--surface);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+
+/* ── Focus Ring ── */
+:focus-visible {
+  outline: 2px solid var(--aura-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--aura-primary-light);
+  color: var(--aura-primary-dark);
+}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.animate-fade-in   { animation: fadeIn 300ms ease forwards; }
+.animate-slide-up  { animation: slideUp 400ms ease forwards; }
+.animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+
+/* ── Skeleton Loader ── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-secondary) 25%,
+    var(--border-default) 50%,
+    var(--surface-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Dashboard Layout ── */
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.dashboard-main {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+}
+
+/* Mobile: no sidebar, use bottom nav */
+@media (max-width: 768px) {
+  .dashboard-main {
+    margin-left: 0 !important;
+    padding-bottom: var(--bottom-nav-height);
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+
+  .sidebar {
+    display: none !important;
+  }
+}
+/* ── Bottom Nav: desktop hidden, mobile visible ── */
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .bottom-nav {
+    display: flex;
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
+/* ── Login Page Responsive ── */
+@media (max-width: 768px) {
+  .login-panel-left {
+    display: none;
+  }
+  .login-panel-right {
+    width: 100% !important;
+    padding: 32px 24px !important;
+  }
+}
+/* ── Page content bottom padding on mobile ── */
+@media (max-width: 768px) {
+  .page-content {
+    padding-bottom: var(--bottom-nav-height);
+  }
 }

@@ -1,0 +1,18 @@
+{
+  "name": "AURA — Your AI Life Companion",
+  "short_name": "AURA",
+  "description": "An emotionally intelligent AI companion that understands, anticipates, and enables your daily life.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1A1A2E",
+  "theme_color": "#5b8def",
+  "categories": ["productivity", "lifestyle", "health"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
